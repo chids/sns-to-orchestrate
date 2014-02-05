@@ -7,6 +7,7 @@ import static java.lang.System.currentTimeMillis;
 import static java.lang.System.getenv;
 import static java.util.Collections.singletonMap;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.Response.Status.OK;
 import static javax.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE;
 import io.orchestrate.client.Client;
@@ -28,8 +29,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @Path("/")
-@Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)
+@Consumes(TEXT_PLAIN)
 public class Proxy {
 
     private final static String COLLECTION = "collection";

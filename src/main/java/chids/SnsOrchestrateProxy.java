@@ -12,6 +12,7 @@ public class SnsOrchestrateProxy extends Service<Configuration> {
 
     @Override
     public void run(final Configuration configuration, final Environment environment) throws Exception {
+        environment.addProvider(TextPlainAsJson.class);
         environment.addResource(Proxy.class);
     }
 
