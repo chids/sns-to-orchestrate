@@ -22,7 +22,9 @@ public class SnsOrchestrateProxy extends Service<Configuration> {
     public void initialize(final Bootstrap<Configuration> bootstrap) {}
 
     @Override
+    @SuppressWarnings("unchecked")
     public void run(final Configuration configuration, final Environment environment) throws Exception {
+        environment.getJerseyResourceConfig().getContainerRequestFilters().add(new SnsSubscriptionRequestFilter());
         environment.addProvider(TextPlainAsJson.class);
         environment.addResource(Proxy.class);
     }
