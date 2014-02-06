@@ -5,6 +5,7 @@ import static javax.ws.rs.core.MediaType.TEXT_PLAIN_TYPE;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 import static javax.ws.rs.core.Response.Status.OK;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -12,6 +13,7 @@ import java.net.URI;
 import javax.ws.rs.WebApplicationException;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.io.ByteStreams;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
@@ -31,7 +33,8 @@ public class SnsSubscriptionRequestFilter implements ContainerRequestFilter {
 
     private static void interceptSubscriptionConfirmation(final ContainerRequest request) {
         try {
-            final JsonNode payload = SnsOrchestrateProxy.JSON.readTree(request.getEntityInputStream());
+            final byte[] entity = readEntity(request);
+            final JsonNode payload = SnsOrchestrateProxy.JSON.readTree(entity);
             if(isSubscriptionConfirmation(payload)) {
                 final URI confirmation = URI.create(payload.get("SubscribeURL").asText());
                 final HttpURLConnection connection = (HttpURLConnection)confirmation.toURL().openConnection();
@@ -43,6 +46,12 @@ public class SnsSubscriptionRequestFilter implements ContainerRequestFilter {
         catch(final IOException e) {
             throw new WebApplicationException(BAD_REQUEST);
         }
+    }
+
+    private static byte[] readEntity(final ContainerRequest request) throws IOException {
+        final byte[] entity = ByteStreams.toByteArray(request.getEntityInputStream());
+        request.setEntityInputStream(new ByteArrayInputStream(entity));
+        return entity;
     }
 
     private static boolean isSubscriptionConfirmation(final JsonNode payload) {
