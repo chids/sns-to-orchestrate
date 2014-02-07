@@ -21,14 +21,16 @@ public class SnsSubscriptionRequestFilter implements ContainerRequestFilter {
 
     @Override
     public ContainerRequest filter(final ContainerRequest request) {
-        if(isPlainTextPost(request)) {
+        if(isSubscriptionRequest(request)) {
             interceptSubscriptionConfirmation(request);
         }
         return request;
     }
 
-    private static boolean isPlainTextPost(final ContainerRequest request) {
-        return "POST".equals(request.getMethod()) && TEXT_PLAIN_TYPE.isCompatible(request.getMediaType());
+    private static boolean isSubscriptionRequest(final ContainerRequest request) {
+        return "POST".equals(request.getMethod())
+                && TEXT_PLAIN_TYPE.isCompatible(request.getMediaType())
+                && "SubscriptionConfirmation".equals(request.getHeaderValue("X-Amz-Sns-Message-Type"));
     }
 
     private static void interceptSubscriptionConfirmation(final ContainerRequest request) {
