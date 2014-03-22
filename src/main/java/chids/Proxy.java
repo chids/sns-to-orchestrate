@@ -19,6 +19,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -40,10 +41,10 @@ public class Proxy {
     public Map<String, String> addToCollection(@PathParam(APPLICATION) final String application,
                                                @PathParam(COLLECTION) final String collection,
                                                @PathParam(ID) final String field,
+                                               @Context final Client client,
                                                final JsonNode payload) {
         final String id = assertId(payload, field);
-        client(application)
-                .execute(new KvStoreOperation(checkNotNull(emptyToNull(collection)), id, payload.toString()));
+        client.execute(new KvStoreOperation(checkNotNull(emptyToNull(collection)), id, payload.toString()));
         return singletonMap("status", "ok");
     }
 
@@ -53,11 +54,11 @@ public class Proxy {
                                            @PathParam(COLLECTION) final String collection,
                                            @PathParam(ID) final String field,
                                            @PathParam(TYPE) final String type,
+                                           @Context final Client client,
                                            final JsonNode payload) {
         final String id = assertId(payload, field);
         checkNotNull(emptyToNull(type), "No type");
-        client(application).execute(
-                new EventStoreOperation(collection, id, type, payload.toString(), currentTimeMillis()));
+        client.execute(new EventStoreOperation(collection, id, type, payload.toString(), currentTimeMillis()));
         return singletonMap("status", "ok");
     }
 
@@ -67,9 +68,5 @@ public class Proxy {
         final JsonNode idField = payload.findPath(field);
         checkArgument(idField.isValueNode(), "Unable to find " + field);
         return checkNotNull(emptyToNull(idField.asText()), "No value for " + field);
-    }
-
-    Client client(final String application) {
-        return new Client(checkNotNull(emptyToNull(getenv(application))));
     }
 }

@@ -25,6 +25,7 @@ public class SnsOrchestrateProxy extends Service<Configuration> {
     @SuppressWarnings("unchecked")
     public void run(final Configuration configuration, final Environment environment) throws Exception {
         environment.getJerseyResourceConfig().getContainerRequestFilters().add(new SnsSubscriptionRequestFilter());
+        environment.addProvider(ClientProvider.class);
         environment.addProvider(TextPlainAsJson.class);
         environment.addResource(Proxy.class);
     }
