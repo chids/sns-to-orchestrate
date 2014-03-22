@@ -13,18 +13,28 @@ Considered non-existent, don't trust this.
 
 ### General
 * **JSON** payload
-   * Both endpoints requires the JSON request body to contain a field named `id` on the root level. The `id` field will be removed from the JSON structure and used as the key in the `{collection}`.
+   * Both endpoints requires a JSON request body
+   * The path parameter `{key-field}` specifies which field whose value will be the key in `{collection}`
 * **MIME** content type
    * Requests are required to use HTTP content-type `text/plain` because that's what AWS SNS uses.
 
 ### Endpoints
 
-All endpoints require the `{application}` path parameter to map to a environment variable whose value is the Orchestrate API that grants write access to `{collection}`.
+All endpoints require three parameters:
 
-* `POST /{application}/{collection}`
-   * Creates, or updates, the key in the given collection.
-* `POST /{application}/{collection}/{event-type}`
-   * Creates an event of the given `{event-type}` in the `{collection}` with the current time as timestamp.
+* The value of `{application}` must map to a environment variable whose value is the Orchestrate API that grants write access to `{collection}`
+*  `{collection}` is the Orchestrate.io collection
+*  `{key-field}` is the field within the payload whose value will be used as key in `{collection}`
+
+#### Saving and updating documents
+`POST /{application}/{collection}/{key-field}`
+
+* Creates, or updates, the key specified by `{key-field}` in `{collection}`.
+
+#### Appending events to documents
+`POST /{application}/{collection}/{key-field}/{event-type}`
+
+* Creates an event of the given `{event-type}` on the key specified by `{key-field}` in `{collection}` with the current time as timestamp.
 
 ### Running / Deploying
 Made to run on Heroku or locally with [foreman](http://ddollar.github.io/foreman/). Requires at least one environment variable for `{application}` that contains a valid API key for Orchestrate.io.

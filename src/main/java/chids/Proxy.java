@@ -20,13 +20,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
-@Path(Proxy.APPLICATIONp + '/' + Proxy.COLLECTIONp)
+@Path(Proxy.APPLICATIONp + '/' + Proxy.COLLECTIONp + '/' + Proxy.IDp)
 @Produces(APPLICATION_JSON)
 @Consumes(APPLICATION_JSON)
 public class Proxy {
 
+    final static String ID = "id";
+    final static String IDp = '{' + ID + '}';
     final static String APPLICATION = "application";
     final static String APPLICATIONp = '{' + APPLICATION + '}';
     final static String COLLECTION = "collection";
@@ -37,8 +38,9 @@ public class Proxy {
     @POST
     public Map<String, String> addToCollection(@PathParam(APPLICATION) final String application,
                                                @PathParam(COLLECTION) final String collection,
+                                               @PathParam(ID) final String field,
                                                final JsonNode payload) {
-        final String id = assertId(payload);
+        final String id = assertId(payload, field);
         client(application)
                 .execute(new KvStoreOperation(checkNotNull(emptyToNull(collection)), id, payload.toString()));
         return singletonMap("status", "ok");
@@ -48,19 +50,22 @@ public class Proxy {
     @Path(TYPEp)
     public Map<String, String> appendToKey(@PathParam(APPLICATION) final String application,
                                            @PathParam(COLLECTION) final String collection,
+                                           @PathParam(ID) final String field,
                                            @PathParam(TYPE) final String type,
                                            final JsonNode payload) {
-        final String id = assertId(payload);
+        final String id = assertId(payload, field);
         checkNotNull(emptyToNull(type), "No type");
         client(application).execute(
                 new EventStoreOperation(collection, id, type, payload.toString(), currentTimeMillis()));
         return singletonMap("status", "ok");
     }
 
-    private static String assertId(final JsonNode payload) {
+    private static String assertId(final JsonNode payload, final String field) {
+        checkNotNull(emptyToNull(field), "No id field specified");
         checkArgument(payload.isObject(), "Invalid JSON payload, not an object");
-        checkArgument(payload.has("id"), "No id field in payload");
-        return checkNotNull(emptyToNull(((ObjectNode)payload).remove("id").asText()), "No value for id");
+        final JsonNode idField = payload.findPath(field);
+        checkArgument(idField.isValueNode(), "Unable to find " + field);
+        return checkNotNull(emptyToNull(idField.asText()), "No value for " + field);
     }
 
     Client client(final String application) {
