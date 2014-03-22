@@ -1,4 +1,4 @@
-package chids;
+package chids.domain;
 
 import io.orchestrate.client.Client;
 import io.orchestrate.client.KvStoreOperation;

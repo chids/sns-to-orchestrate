@@ -1,4 +1,4 @@
-package chids;
+package chids.service;
 
 import static java.util.Collections.singletonMap;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;

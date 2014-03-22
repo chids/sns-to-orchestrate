@@ -1,4 +1,4 @@
-package chids;
+package chids.providers;
 
 import static com.google.common.base.Strings.emptyToNull;
 import static java.lang.System.getenv;
@@ -8,6 +8,8 @@ import java.lang.reflect.Type;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Provider;
+
+import chids.service.BadRequestException;
 
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.core.spi.component.ComponentContext;

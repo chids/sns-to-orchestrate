@@ -1,4 +1,4 @@
-package chids;
+package chids.providers;
 
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.base.Strings.nullToEmpty;
@@ -8,6 +8,11 @@ import java.lang.reflect.Type;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
+
+import chids.domain.Document;
+import chids.domain.Event;
+import chids.domain.Persistable;
+import chids.service.BadRequestException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.jersey.api.core.HttpContext;

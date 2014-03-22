@@ -1,4 +1,4 @@
-package chids;
+package chids.domain;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Strings.emptyToNull;

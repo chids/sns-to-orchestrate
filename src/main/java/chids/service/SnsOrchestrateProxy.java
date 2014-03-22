@@ -1,4 +1,10 @@
-package chids;
+package chids.service;
+
+import chids.Proxy;
+import chids.providers.ClientProvider;
+import chids.providers.PersistableProvider;
+import chids.providers.SnsSubscriptionRequestFilter;
+import chids.providers.TextPlainAsJson;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

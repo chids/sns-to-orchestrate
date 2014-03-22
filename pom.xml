@@ -13,7 +13,7 @@
         <jackson.version>2.1.4</jackson.version>
         <logback.version>1.1.0</logback.version>
         <slf4j.version>1.7.5</slf4j.version>
-        <main.class>chids.SnsOrchestrateProxy</main.class>
+        <main.class>chids.service.SnsOrchestrateProxy</main.class>
     </properties>
     <groupId>chids</groupId>
     <artifactId>sns-to-orchestrate</artifactId>
