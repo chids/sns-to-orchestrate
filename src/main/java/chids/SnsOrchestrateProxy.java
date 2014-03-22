@@ -27,6 +27,7 @@ public class SnsOrchestrateProxy extends Service<Configuration> {
         environment.getJerseyResourceConfig().getContainerRequestFilters().add(new SnsSubscriptionRequestFilter());
         environment.addProvider(ClientProvider.class);
         environment.addProvider(TextPlainAsJson.class);
+        environment.addProvider(PersistableProvider.class);
         environment.addResource(Proxy.class);
     }
 
