@@ -16,7 +16,9 @@ Considered non-existent, don't trust this.
    * Both endpoints requires a JSON request body
    * The path parameter `{key-field}` specifies which field whose value will be the key in `{collection}`
 * **MIME** content type
-   * Requests are required to use HTTP content-type `text/plain` because that's what AWS SNS uses.
+   * The service accepts JSON payloads sent with HTTP content-type `text/plain` because that's how AWS SNS does.
+   * `application/json` is also accepted
+
 
 ### Endpoints
 

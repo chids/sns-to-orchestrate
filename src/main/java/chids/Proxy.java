@@ -7,6 +7,7 @@ import static java.lang.System.currentTimeMillis;
 import static java.lang.System.getenv;
 import static java.util.Collections.singletonMap;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import io.orchestrate.client.Client;
 import io.orchestrate.client.EventStoreOperation;
 import io.orchestrate.client.KvStoreOperation;
@@ -23,7 +24,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 @Path(Proxy.APPLICATIONp + '/' + Proxy.COLLECTIONp + '/' + Proxy.IDp)
 @Produces(APPLICATION_JSON)
-@Consumes(APPLICATION_JSON)
+@Consumes({ TEXT_PLAIN, APPLICATION_JSON })
 public class Proxy {
 
     final static String ID = "id";
