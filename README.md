@@ -19,13 +19,15 @@ Considered non-existent, don't trust this.
 
 ### Endpoints
 
-* `POST /{collection}`
+All endpoints require the `{application}` path parameter to map to a environment variable whose value is the Orchestrate API that grants write access to `{collection}`.
+
+* `POST /{application}/{collection}`
    * Creates, or updates, the key in the given collection.
-* `POST /{collection}/{event-type}`
+* `POST /{application}/{collection}/{event-type}`
    * Creates an event of the given `{event-type}` in the `{collection}` with the current time as timestamp.
 
 ### Running / Deploying
-Made to run on Heroku or locally with [foreman](http://ddollar.github.io/foreman/). Requires the environment variable `ORCHESTRATE_KEY` to contain a valid API key for Orchestrate.io.
+Made to run on Heroku or locally with [foreman](http://ddollar.github.io/foreman/). Requires at least one environment variable for `{application}` that contains a valid API key for Orchestrate.io.
 
 ### SNS subscription configuration
 * HTTP or HTTPS subscription
