@@ -14,11 +14,11 @@ Considered non-existent, don't trust this.
 ### General
 * **JSON** payload
    * Both endpoints requires a JSON request body
-   * The path parameter `{key-field}` specifies which field whose value will be the key in `{collection}`
+   * The path parameter `{key-field}` specifies the field whose value will be the key in `{collection}`
 * **MIME** content type
-   * The service accepts JSON payloads sent with HTTP content-type `text/plain` because that's how AWS SNS does.
-   * `application/json` is also accepted
-
+   * Endpoints require JSON payload which can be sent as...
+      * ...`application/json`
+      * ...`text/plain` (because that's what AWS SNS does)
 
 ### Endpoints
 
@@ -41,6 +41,11 @@ All endpoints require three parameters:
 ### Running / Deploying
 Made to run on Heroku or locally with [foreman](http://ddollar.github.io/foreman/). Requires at least one environment variable for `{application}` that contains a valid API key for Orchestrate.io.
 
-### SNS subscription configuration
+### AWS SNS
+
+### Subscription configuration
 * HTTP or HTTPS subscription
 * Raw message delivery
+
+### Subscription confirmation
+The service employes a filter (`SnsSubscriptionRequestFilter`) which intercepts **and confirms any** inbound SNS subscription request.
