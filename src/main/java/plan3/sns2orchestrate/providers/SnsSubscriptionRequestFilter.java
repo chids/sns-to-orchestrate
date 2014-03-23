@@ -15,9 +15,9 @@ import javax.ws.rs.ext.Provider;
 
 import plan3.sns2orchestrate.service.SnsOrchestrateProxy;
 
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.io.ByteStreams;
+import com.sun.jersey.api.core.ResourceConfig;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
@@ -65,5 +65,10 @@ public class SnsSubscriptionRequestFilter implements ContainerRequestFilter {
         return payload.has("Type")
                 && "SubscriptionConfirmation".equals(payload.get("Type").asText())
                 && payload.has("SubscribeURL");
+    }
+
+    @SuppressWarnings("unchecked")
+    public void addTo(final ResourceConfig config) {
+        config.getContainerRequestFilters().add(this);
     }
 }

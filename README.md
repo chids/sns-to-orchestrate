@@ -13,7 +13,7 @@ That said, as of this writing the least insecure way of running this would proba
 
 * Expose the service solely over HTTPS (using a proper certificate)
 * Use random UUIDs (or something equivalent) as values for `{application}`
-   * For example: `brew install uuid && heroku config:set $(uuid)=orchestrate-api-key`
+   * For example: `brew install uuid && heroku config:set $(uuid)=<orchestrate api key>`
 
 ## Service
 
@@ -45,7 +45,7 @@ All endpoints require three parameters:
 * Creates an event of the given `{event-type}` on the key specified by `{key-field}` in `{collection}` with the current time as timestamp.
 
 ### Running / Deploying
-Made to run on Heroku or locally with [foreman](http://ddollar.github.io/foreman/). Requires at least one environment variable for `{application}` that contains a valid API key for Orchestrate.io.
+Made to run on Heroku or locally with [foreman](http://ddollar.github.io/foreman/). Requires at least one environment variable for `{application}` that contains a valid API key for Orchestrate.io. To run locally **without HTTPS**; set the environment variable `DO_NOT_FORCE_HTTPS` to any value.
 
 ### AWS SNS
 

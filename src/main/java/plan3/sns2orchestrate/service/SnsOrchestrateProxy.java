@@ -1,14 +1,15 @@
 package plan3.sns2orchestrate.service;
 
-import plan3.sns2orchestrate.Proxy;
-import plan3.sns2orchestrate.providers.ClientProvider;
-import plan3.sns2orchestrate.providers.PersistableProvider;
-import plan3.sns2orchestrate.providers.SnsSubscriptionRequestFilter;
-import plan3.sns2orchestrate.providers.TextPlainAsJson;
 import io.dropwizard.Application;
 import io.dropwizard.Configuration;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import plan3.sns2orchestrate.Proxy;
+import plan3.sns2orchestrate.providers.ClientProvider;
+import plan3.sns2orchestrate.providers.ForceHttpsFilter;
+import plan3.sns2orchestrate.providers.PersistableProvider;
+import plan3.sns2orchestrate.providers.SnsSubscriptionRequestFilter;
+import plan3.sns2orchestrate.providers.TextPlainAsJson;
 
 import com.codahale.metrics.health.HealthCheck;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -29,9 +30,9 @@ public class SnsOrchestrateProxy extends Application<Configuration> {
     public void initialize(final Bootstrap<Configuration> bootstrap) {}
 
     @Override
-    @SuppressWarnings("unchecked")
     public void run(final Configuration configuration, final Environment environment) throws Exception {
-        environment.jersey().getResourceConfig().getContainerRequestFilters().add(new SnsSubscriptionRequestFilter());
+        new SnsSubscriptionRequestFilter().addTo(environment.jersey().getResourceConfig());
+        new ForceHttpsFilter().addTo(environment.jersey().getResourceConfig());
         environment.jersey().register(ClientProvider.class);
         environment.jersey().register(TextPlainAsJson.class);
         environment.jersey().register(PersistableProvider.class);
