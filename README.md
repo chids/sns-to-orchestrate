@@ -7,7 +7,13 @@ That way you can have all messages published to a topic...
 * ...[appended as events](https://orchestrate.io/docs/api/#events/put) to a key in a collection
 
 ## Security?
-Considered non-existent, don't trust this.
+Considered non-existent, **don't trust this**.
+
+That said, as of this writing the least insecure way of running this would probably be:
+
+* Expose the service solely over HTTPS (using a proper certificate)
+* Use random UUIDs (or something equivalent) as values for `{application}`
+   * For example: `brew install uuid && heroku config:set $(uuid)=orchestrate-api-key`
 
 ## Service
 
@@ -24,7 +30,7 @@ Considered non-existent, don't trust this.
 
 All endpoints require three parameters:
 
-* The value of `{application}` must map to a environment variable whose value is the Orchestrate API that grants write access to `{collection}`
+* `{application}` must map to a environment variable whose value is the Orchestrate API that grants write access to `{collection}`
 *  `{collection}` is the Orchestrate.io collection
 *  `{key-field}` is the field within the payload whose value will be used as key in `{collection}`
 
