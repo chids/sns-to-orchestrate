@@ -5,6 +5,8 @@ import static java.lang.System.getenv;
 import io.orchestrate.client.Client;
 
 import java.lang.reflect.Type;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
@@ -25,6 +27,7 @@ public class ClientProvider
         implements InjectableProvider<Context, Type> {
     public final static String APPLICATION = "application";
     public final static String APPLICATIONp = '{' + APPLICATION + '}';
+    private static final ConcurrentMap<String, Client> clients = new ConcurrentHashMap<>();
 
     @Override
     public ComponentScope getScope() {
@@ -40,8 +43,14 @@ public class ClientProvider
     public Client getValue(final HttpContext c) {
         final MultivaluedMap<String, String> parameters = c.getUriInfo().getPathParameters(true);
         final String application = assertNotNull(parameters.getFirst(APPLICATION), "No value for " + APPLICATION);
+        return clients.containsKey(application) ? clients.get(application) : newClient(application);
+    }
+
+    private static Client newClient(final String application) {
         final String apiKey = assertNotNull(getenv(application), application + " not configured");
-        return new Client(apiKey);
+        final Client client = new Client(apiKey);
+        clients.put(application, client);
+        return client;
     }
 
     private static String assertNotNull(final String value, final String message) {
