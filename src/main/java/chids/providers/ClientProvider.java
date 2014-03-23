@@ -1,12 +1,22 @@
 package chids.providers;
 
+import static com.codahale.metrics.health.HealthCheck.Result.healthy;
+import static com.codahale.metrics.health.HealthCheck.Result.unhealthy;
 import static com.google.common.base.Strings.emptyToNull;
 import static java.lang.System.getenv;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import io.orchestrate.client.Client;
+import io.orchestrate.client.ClientBuilder;
+import io.orchestrate.client.KvListOperation;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeoutException;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
@@ -14,6 +24,8 @@ import javax.ws.rs.ext.Provider;
 
 import chids.service.BadRequestException;
 
+import com.codahale.metrics.health.HealthCheck.Result;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.jersey.api.core.HttpContext;
 import com.sun.jersey.core.spi.component.ComponentContext;
 import com.sun.jersey.core.spi.component.ComponentScope;
@@ -48,7 +60,7 @@ public class ClientProvider
 
     private static Client newClient(final String application) {
         final String apiKey = assertNotNull(getenv(application), application + " not configured");
-        final Client client = new Client(apiKey);
+        final Client client = new ClientBuilder(apiKey).useSSL(true).build();
         clients.put(application, client);
         return client;
     }
@@ -58,5 +70,21 @@ public class ClientProvider
             throw new BadRequestException(message);
         }
         return value;
+    }
+
+    public static Result ping() {
+        final List<Client> clientele = new ArrayList<>(clients.values());
+        if(clientele.isEmpty()) {
+            return unhealthy("No requests made, nothing to verify ¯\\_(ツ)_/¯");
+        }
+        final Client client = clientele.get(ThreadLocalRandom.current().nextInt(0, clientele.size()));
+        try {
+            final KvListOperation<JsonNode> operation = new KvListOperation<>("whatever", 0, JsonNode.class);
+            final int result = client.execute(operation).get(2, SECONDS).getCount();
+            return (result == 0) ? healthy() : unhealthy("Expected 0 results for 0 paging");
+        }
+        catch(InterruptedException | ExecutionException | TimeoutException e) {
+            return unhealthy(e);
+        }
     }
 }

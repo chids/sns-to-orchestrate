@@ -10,6 +10,7 @@ import chids.providers.PersistableProvider;
 import chids.providers.SnsSubscriptionRequestFilter;
 import chids.providers.TextPlainAsJson;
 
+import com.codahale.metrics.health.HealthCheck;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonFactory;
@@ -35,6 +36,12 @@ public class SnsOrchestrateProxy extends Application<Configuration> {
         environment.jersey().register(TextPlainAsJson.class);
         environment.jersey().register(PersistableProvider.class);
         environment.jersey().register(Proxy.class);
+        environment.healthChecks().register("orchestrate.io", new HealthCheck() {
+            @Override
+            protected Result check() throws Exception {
+                return ClientProvider.ping();
+            }
+        });
     }
 
     public static void main(final String[] args) throws Exception {
