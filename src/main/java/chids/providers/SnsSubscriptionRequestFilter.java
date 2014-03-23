@@ -11,6 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.ext.Provider;
 
 import chids.service.SnsOrchestrateProxy;
 
@@ -19,6 +20,7 @@ import com.google.common.io.ByteStreams;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+@Provider
 public class SnsSubscriptionRequestFilter implements ContainerRequestFilter {
 
     @Override

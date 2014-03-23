@@ -17,6 +17,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
+import com.codahale.metrics.annotation.Timed;
+
 import chids.domain.Persistable;
 
 @Path(APPLICATIONp + '/' + COLLECTIONp + '/' + IDp)
@@ -25,12 +27,14 @@ import chids.domain.Persistable;
 public class Proxy {
 
     @POST
+    @Timed
     public Map<String, String> addToCollection(@Context final Client client, @Context final Persistable document) {
         document.persist(client);
         return singletonMap("status", "ok");
     }
 
     @POST
+    @Timed
     @Path(TYPEp)
     public Map<String, String> appendToKey(@Context final Client client, @Context final Persistable event) {
         event.persist(client);

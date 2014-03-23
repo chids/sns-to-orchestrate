@@ -1,5 +1,9 @@
 package chids.service;
 
+import io.dropwizard.Application;
+import io.dropwizard.Configuration;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
 import chids.Proxy;
 import chids.providers.ClientProvider;
 import chids.providers.PersistableProvider;
@@ -17,12 +21,8 @@ import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
-import com.yammer.dropwizard.Service;
-import com.yammer.dropwizard.config.Bootstrap;
-import com.yammer.dropwizard.config.Configuration;
-import com.yammer.dropwizard.config.Environment;
 
-public class SnsOrchestrateProxy extends Service<Configuration> {
+public class SnsOrchestrateProxy extends Application<Configuration> {
 
     @Override
     public void initialize(final Bootstrap<Configuration> bootstrap) {}
@@ -30,11 +30,11 @@ public class SnsOrchestrateProxy extends Service<Configuration> {
     @Override
     @SuppressWarnings("unchecked")
     public void run(final Configuration configuration, final Environment environment) throws Exception {
-        environment.getJerseyResourceConfig().getContainerRequestFilters().add(new SnsSubscriptionRequestFilter());
-        environment.addProvider(ClientProvider.class);
-        environment.addProvider(TextPlainAsJson.class);
-        environment.addProvider(PersistableProvider.class);
-        environment.addResource(Proxy.class);
+        environment.jersey().getResourceConfig().getContainerRequestFilters().add(new SnsSubscriptionRequestFilter());
+        environment.jersey().register(ClientProvider.class);
+        environment.jersey().register(TextPlainAsJson.class);
+        environment.jersey().register(PersistableProvider.class);
+        environment.jersey().register(Proxy.class);
     }
 
     public static void main(final String[] args) throws Exception {
