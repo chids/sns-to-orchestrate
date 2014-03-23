@@ -1,4 +1,4 @@
-package chids.service;
+package plan3.sns2orchestrate.service;
 
 import static java.util.Collections.singletonMap;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;

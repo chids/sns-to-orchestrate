@@ -1,4 +1,4 @@
-package chids.providers;
+package plan3.sns2orchestrate.providers;
 
 import static com.codahale.metrics.health.HealthCheck.Result.healthy;
 import static com.codahale.metrics.health.HealthCheck.Result.unhealthy;
@@ -22,7 +22,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
 
-import chids.service.BadRequestException;
+import plan3.sns2orchestrate.service.BadRequestException;
+
 
 import com.codahale.metrics.health.HealthCheck.Result;
 import com.fasterxml.jackson.databind.JsonNode;

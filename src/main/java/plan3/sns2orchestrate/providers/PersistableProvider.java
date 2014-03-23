@@ -1,4 +1,4 @@
-package chids.providers;
+package plan3.sns2orchestrate.providers;
 
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.base.Strings.nullToEmpty;
@@ -9,10 +9,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
 
-import chids.domain.Document;
-import chids.domain.Event;
-import chids.domain.Persistable;
-import chids.service.BadRequestException;
+import plan3.sns2orchestrate.domain.Document;
+import plan3.sns2orchestrate.domain.Event;
+import plan3.sns2orchestrate.domain.Persistable;
+import plan3.sns2orchestrate.service.BadRequestException;
+
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.sun.jersey.api.core.HttpContext;

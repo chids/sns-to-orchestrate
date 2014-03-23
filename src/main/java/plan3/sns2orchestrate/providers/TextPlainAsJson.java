@@ -1,4 +1,4 @@
-package chids.providers;
+package plan3.sns2orchestrate.providers;
 
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN_TYPE;
@@ -15,7 +15,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.Provider;
 
-import chids.service.SnsOrchestrateProxy;
+import plan3.sns2orchestrate.service.SnsOrchestrateProxy;
+
 
 import com.fasterxml.jackson.databind.JsonNode;
 

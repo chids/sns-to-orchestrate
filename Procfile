@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Ddw.server.type=simple -Ddw.server.connector.type=http -Ddw.server.connector.port.port=$PORT -jar target/sns-to-orchestrate.jar server ./etc/dw.yml
+web: java $JAVA_OPTS -Ddw.server.type=simple -Ddw.server.connector.type=http -Ddw.server.connector.port.port=$PORT -jar target/sns2orchestrate.jar server ./etc/dw.yml

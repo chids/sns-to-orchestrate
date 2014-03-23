@@ -1,4 +1,4 @@
-package chids.providers;
+package plan3.sns2orchestrate.providers;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN_TYPE;
@@ -13,7 +13,8 @@ import java.net.URI;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.ext.Provider;
 
-import chids.service.SnsOrchestrateProxy;
+import plan3.sns2orchestrate.service.SnsOrchestrateProxy;
+
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.io.ByteStreams;

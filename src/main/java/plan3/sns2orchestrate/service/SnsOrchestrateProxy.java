@@ -1,14 +1,14 @@
-package chids.service;
+package plan3.sns2orchestrate.service;
 
+import plan3.sns2orchestrate.Proxy;
+import plan3.sns2orchestrate.providers.ClientProvider;
+import plan3.sns2orchestrate.providers.PersistableProvider;
+import plan3.sns2orchestrate.providers.SnsSubscriptionRequestFilter;
+import plan3.sns2orchestrate.providers.TextPlainAsJson;
 import io.dropwizard.Application;
 import io.dropwizard.Configuration;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import chids.Proxy;
-import chids.providers.ClientProvider;
-import chids.providers.PersistableProvider;
-import chids.providers.SnsSubscriptionRequestFilter;
-import chids.providers.TextPlainAsJson;
 
 import com.codahale.metrics.health.HealthCheck;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;

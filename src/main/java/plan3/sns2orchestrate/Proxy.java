@@ -1,12 +1,12 @@
-package chids;
+package plan3.sns2orchestrate;
 
-import static chids.providers.ClientProvider.APPLICATIONp;
-import static chids.providers.PersistableProvider.COLLECTIONp;
-import static chids.providers.PersistableProvider.IDp;
-import static chids.providers.PersistableProvider.TYPEp;
 import static java.util.Collections.singletonMap;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
+import static plan3.sns2orchestrate.providers.ClientProvider.APPLICATIONp;
+import static plan3.sns2orchestrate.providers.PersistableProvider.COLLECTIONp;
+import static plan3.sns2orchestrate.providers.PersistableProvider.IDp;
+import static plan3.sns2orchestrate.providers.PersistableProvider.TYPEp;
 import io.orchestrate.client.Client;
 
 import java.util.Map;
@@ -17,9 +17,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 
+import plan3.sns2orchestrate.domain.Persistable;
+
 import com.codahale.metrics.annotation.Timed;
 
-import chids.domain.Persistable;
 
 @Path(APPLICATIONp + '/' + COLLECTIONp + '/' + IDp)
 @Produces(APPLICATION_JSON)

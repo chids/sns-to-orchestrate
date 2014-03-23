@@ -1,4 +1,4 @@
-package chids.domain;
+package plan3.sns2orchestrate.domain;
 
 import io.orchestrate.client.Client;
 import io.orchestrate.client.KvStoreOperation;

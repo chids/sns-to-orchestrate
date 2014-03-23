@@ -1,4 +1,4 @@
-package chids.domain;
+package plan3.sns2orchestrate.domain;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
