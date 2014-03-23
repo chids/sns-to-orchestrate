@@ -7,6 +7,7 @@ import io.orchestrate.client.Client;
 import java.lang.reflect.Type;
 
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
 
 import chids.service.BadRequestException;
@@ -37,14 +38,16 @@ public class ClientProvider
 
     @Override
     public Client getValue(final HttpContext c) {
-        final String application = emptyToNull(c.getUriInfo().getPathParameters(true).getFirst(APPLICATION));
-        if(application == null) {
-            throw new BadRequestException("No value for " + APPLICATION);
-        }
-        final String apiKey = emptyToNull(getenv(application));
-        if(apiKey == null) {
-            throw new BadRequestException(application + " not configured");
-        }
+        final MultivaluedMap<String, String> parameters = c.getUriInfo().getPathParameters(true);
+        final String application = assertNotNull(parameters.getFirst(APPLICATION), "No value for " + APPLICATION);
+        final String apiKey = assertNotNull(getenv(application), application + " not configured");
         return new Client(apiKey);
+    }
+
+    private static String assertNotNull(final String value, final String message) {
+        if(emptyToNull(value) == null) {
+            throw new BadRequestException(message);
+        }
+        return value;
     }
 }
