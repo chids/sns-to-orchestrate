@@ -40,7 +40,7 @@ public class ForceHttpsFilter implements ContainerRequestFilter, ContainerRespon
 
     @Override
     public ContainerRequest filter(final ContainerRequest request) {
-        if(this.forceSSL) {
+        if(this.forceSSL && (!request.isSecure())) {
             throw new PermanentRedirectException(UriBuilder.fromUri(request.getRequestUri()).scheme("https").build());
         }
         return request;
