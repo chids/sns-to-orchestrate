@@ -52,7 +52,7 @@
         <dependency>
             <groupId>io.orchestrate</groupId>
             <artifactId>orchestrate-client</artifactId>
-            <version>0.1.0</version>
+            <version>0.2.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.fasterxml.jackson.core</groupId>
